@@ -2,6 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import Redirects from "../pages/Redirects.astro";
 import Contacts from "../pages/contacts.astro";
+import { execSync } from "child_process";
+const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+const commitDateRaw = execSync('git log -1 --format=%cd --date=short').toString().trim();
+
+const date = new Date(commitDateRaw);
+const commitDate = date.toLocaleDateString('en-US', { 
+	year: 'numeric',
+	month: 'long', 
+	day: 'numeric' 
+});
 ---
 
 <header>contact me!</header>
@@ -18,5 +28,4 @@ import Contacts from "../pages/contacts.astro";
 		<Contacts />
 	</div>
 </div>
-
-<footer class="text-center">made with &hearts; by sarvesh! <a href="https://github.com/tarfish/personal-site" target="_blank">(repo)</a></footer>
+<footer class="text-center"><span class="lowercase">by sarvesh, Last updated: {commitDate} (commit {commitHash})</span></footer>
